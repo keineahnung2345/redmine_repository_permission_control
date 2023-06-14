@@ -1,0 +1,6 @@
+# Chinese (Taiwan) translations for Ruby on Rails
+# by tsechingho (http://github.com/tsechingho)
+# See http://github.com/svenfuchs/rails-i18n/ for details.
+
+"zh-TW":
+  label_accessible_repositories: "可存取的儲存機制"

@@ -1,0 +1,10 @@
+<td class="accessible-repositories">
+  <span id="member-<%= member.id %>-accessible-repositories"><%= (@project.repositories.pluck(:identifier) - Repository.find(member.inaccessible_repository_ids).pluck(:identifier)).sort.collect(&:to_s).join(', ') %></span>
+  <div id="member-<%= member.id %>-accessible-repositories-form"></div>
+</td>
+<td class="buttons">
+    <%= link_to l(:button_edit),
+                edit_member_accessible_repositories_path(member),
+                :remote => true,
+                :class => 'icon icon-edit' %>
+</td>

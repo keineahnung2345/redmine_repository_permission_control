@@ -1,0 +1,39 @@
+module RedmineRepositoryPermissionControl
+  module Patches
+
+    module MembersControllerPatch
+      def self.included(base) # :nodoc:
+        base.send(:include, InstanceMethods)
+        base.class_eval do
+          unloadable # Send unloadable so it will not be unloaded in development
+        end
+      end
+
+      module InstanceMethods
+        def update_accessible_repositories
+          if params[:membership]
+            accessible_repository_ids = (params[:membership][:repository_ids] || []).collect(&:to_i)
+            @member.inaccessible_repository_ids = @member.project.repository_ids - accessible_repository_ids
+          end
+
+          saved = @member.save
+          respond_to do |format|
+            format.html {redirect_to_settings_in_projects}
+            format.js {render :update}
+            format.api do
+              if saved
+                render_api_ok
+              else
+                render_validation_errors(@member)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+unless MembersController.included_modules.include?(RedmineRepositoryPermissionControl::Patches::MembersControllerPatch)
+  MembersController.send(:include, RedmineRepositoryPermissionControl::Patches::MembersControllerPatch)
+end

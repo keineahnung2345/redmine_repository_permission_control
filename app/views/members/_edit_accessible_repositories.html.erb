@@ -1,0 +1,23 @@
+<%= form_for(@member, :url => update_member_accessible_repositories_path(@member),
+                      :as => :membership,
+                      :remote => request.xhr?,
+                      :method => :put) do |f| %>
+  <p>
+    <% @project.repositories.sort.each do |repository| %>
+    <label class="block">
+      <%= check_box_tag('membership[repository_ids][]',
+                        repository.id, (not (MemberInaccessibleRepository.where(:member_id => @member.id).pluck(:repository_id).include? repository.id)),
+                        :id => nil,
+                        :disabled => false) %> <%= repository.identifier %>
+      <%= render_role_inheritance(@member, repository) %>
+    </label>
+    <% end %>
+  </p>
+  <%= hidden_field_tag 'membership[repository_ids][]', '', :id => nil %>
+
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <%= link_to_function l(:button_cancel),
+                         "$('#member-#{@member.id}-accessible-repositories').show(); $('#member-#{@member.id}-accessible-repositories-form').empty(); return false;" if request.xhr? %>
+  </p>
+<% end %>
