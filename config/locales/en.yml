@@ -1,4 +1,5 @@
 # English strings go here for Rails i18n
 en:
   label_accessible_repositories: "Accessible repositories"
+  label_accessible_members: "Accessible members"
   button_edit_permission: "Edit"
