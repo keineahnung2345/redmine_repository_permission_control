@@ -14,10 +14,10 @@ module RedmineRepositoryPermissionControl
 
       module InstanceMethods
         def accessible_repository_ids=(arg)
-          ids = (arg || []).collect(&:to_i)
+          ids = (arg || []).collect(&:to_i) - [0]
           # Add new accessible_repositories
-          # FIXME: need to subtract existing ones?
-          ids.each do |id|
+          new_ids = ids - member_accessible_repositories.where(:member => self).pluck(:repository_id)
+          new_ids.each do |id|
             member_accessible_repositories << MemberAccessibleRepository.new(:repository_id => id, :member => self)
           end
           # Remove accessible_repositories (Rails' #accessible_repository_ids= will not trigger MemberRole#on_destroy)
