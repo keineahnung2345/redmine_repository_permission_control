@@ -8,4 +8,6 @@ Redmine::Plugin.register :redmine_repository_permission_control do
 
   permission :edit_member_accessible_repositories, members: :edit_accessible_repositories
   permission :update_member_accessible_repositories, members: :update_accessible_repositories
+  permission :edit_repository_accessible_members, repositories: :edit_accessible_members
+  permission :update_repository_accessible_members, repositories: :update_accessible_members
 end

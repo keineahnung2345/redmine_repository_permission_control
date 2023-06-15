@@ -3,6 +3,10 @@ module RedmineRepositoryPermissionControl
     module RepositoriesControllerPatch
       def self.included(base)
         base.class_eval do
+          before_action :find_repository, :only => [:edit, :update, :destroy, :committers, :edit_accessible_members, :update_accessible_members]
+          before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers, :edit_accessible_members, :update_accessible_members]
+          # :authorize should be after :find_repository and :find_project_repository
+          before_action :authorize
           before_action :authorize_repository
 
           prepend InstanceMethods
@@ -63,6 +67,26 @@ module RedmineRepositoryPermissionControl
           render_404
         rescue InvalidRevisionParam
           show_error_not_found
+        end
+
+        def update_accessible_members
+          if params[:membership]
+            accessible_member_ids = (params[:membership][:member_ids] || []).collect(&:to_i)
+            @repository.accessible_member_ids = accessible_member_ids
+          end
+
+          saved = @repository.save
+          respond_to do |format|
+            format.html {redirect_to_settings_in_projects}
+            format.js
+            format.api do
+              if saved
+                render_api_ok
+              else
+                render_validation_errors(@repository)
+              end
+            end
+          end
         end
       end
     end #module

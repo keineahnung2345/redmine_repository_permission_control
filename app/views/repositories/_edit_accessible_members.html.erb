@@ -1,0 +1,22 @@
+<%= form_for(@repository, :url => update_repository_accessible_members_path(@repository),
+                      :as => :membership,
+                      :remote => request.xhr?,
+                      :method => :put) do |f| %>
+  <p>
+    <% @project.members.sort.each do |member| %>
+    <label class="block">
+      <%= check_box_tag('membership[member_ids][]',
+                        member.id, (MemberAccessibleRepository.where(:repository_id => @repository.id).pluck(:member_id).include? member.id),
+                        :id => nil,
+                        :disabled => false) %> <%= member.user.firstname %>
+    </label>
+    <% end %>
+  </p>
+  <%= hidden_field_tag 'membership[member_ids][]', '', :id => nil %>
+
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <%= link_to_function l(:button_cancel),
+                         "$('#repository-#{@repository.id}-accessible-members').show(); $('#repository-#{@repository.id}-accessible-members-form').empty(); return false;" if request.xhr? %>
+  </p>
+<% end %>

@@ -9,7 +9,6 @@
                         repository.id, (MemberAccessibleRepository.where(:member_id => @member.id).pluck(:repository_id).include? repository.id),
                         :id => nil,
                         :disabled => false) %> <%= repository.identifier %>
-      <%= render_role_inheritance(@member, repository) %>
     </label>
     <% end %>
   </p>

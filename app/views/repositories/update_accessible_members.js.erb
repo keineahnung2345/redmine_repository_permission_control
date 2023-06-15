@@ -1,0 +1,3 @@
+$('#tab-content-repositories').html('<%= escape_javascript(render :partial => 'projects/settings/repositories') %>');
+hideOnLoad();
+$("#repository-<%= @repository.id %>").effect("highlight");

@@ -1,0 +1,3 @@
+$("#repository-<%= @repository.id %>-accessible-members").hide();
+$("#repository-<%= @repository.id %>-accessible-members-form").html("<%= escape_javascript(render :partial => "edit_accessible_members") %>");
+
