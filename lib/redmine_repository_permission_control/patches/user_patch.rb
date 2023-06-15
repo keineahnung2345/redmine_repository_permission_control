@@ -20,9 +20,9 @@ module RedmineRepositoryPermissionControl
             return true if admin?
       
             member = Member.find_by(:user_id => id, :project_id => context.project_id)
-            member_inaccessible_repositories = MemberInaccessibleRepository.where(:member_id => member.id)
-            inaccessible_repositories = Repository.where(:id => member_inaccessible_repositories.map(&:repository_id))
-            inaccessible_repositories.nil? || (not (inaccessible_repositories.include? context))
+            member_accessible_repositories = MemberAccessibleRepository.where(:member_id => member.id)
+            accessible_repositories = Repository.where(:id => member_accessible_repositories.map(&:repository_id))
+            accessible_repositories.include? context
           elsif context && context.is_a?(Array)
             if context.empty?
               false

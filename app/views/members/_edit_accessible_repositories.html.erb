@@ -6,7 +6,7 @@
     <% @project.repositories.sort.each do |repository| %>
     <label class="block">
       <%= check_box_tag('membership[repository_ids][]',
-                        repository.id, (not (MemberInaccessibleRepository.where(:member_id => @member.id).pluck(:repository_id).include? repository.id)),
+                        repository.id, (MemberAccessibleRepository.where(:member_id => @member.id).pluck(:repository_id).include? repository.id),
                         :id => nil,
                         :disabled => false) %> <%= repository.identifier %>
       <%= render_role_inheritance(@member, repository) %>

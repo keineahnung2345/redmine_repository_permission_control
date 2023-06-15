@@ -1,5 +1,5 @@
 <td class="accessible-repositories">
-  <span id="member-<%= member.id %>-accessible-repositories"><%= (@project.repositories.pluck(:identifier) - Repository.find(member.inaccessible_repository_ids).pluck(:identifier)).sort.collect(&:to_s).join(', ') %></span>
+  <span id="member-<%= member.id %>-accessible-repositories"><%= Repository.find(member.accessible_repository_ids).pluck(:identifier).sort.collect(&:to_s).join(', ') %></span>
   <div id="member-<%= member.id %>-accessible-repositories-form"></div>
 </td>
 <td class="buttons">

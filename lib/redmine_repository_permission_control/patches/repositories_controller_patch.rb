@@ -13,7 +13,7 @@ module RedmineRepositoryPermissionControl
         def check_is_accessible(repo)
           return false if repo.nil?
           member = Member.find_by(:user_id => User.current.id, :project_id => @project.id)
-          (not (MemberInaccessibleRepository.where(:member_id => member.id).pluck(:repository_id).include? repo.id))
+          MemberAccessibleRepository.where(:member_id => member.id).pluck(:repository_id).include? repo.id
         end
 
         def find_repositories
