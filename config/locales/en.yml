@@ -2,4 +2,6 @@
 en:
   label_accessible_repositories: "Accessible repositories"
   label_accessible_members: "Accessible members"
+  label_select_all: "Select all"
+  label_unselect_all: "Unselect all"
   button_edit_permission: "Edit"

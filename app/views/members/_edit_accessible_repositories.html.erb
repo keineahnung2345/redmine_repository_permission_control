@@ -8,7 +8,10 @@
   <p>
     <%= check_box_tag(nil, nil, false,
                       :id => "member-#{@member.id}-selectAllMembershipRepositoryIds",
-                      :disabled => false) %> Select all
+                      :disabled => false) %>
+    <label for="checkbox">
+      <%= l(:label_select_all) %>
+    </label>
     <% @project.repositories.sort.each do |repository| %>
     <label class="block">
       <%= check_box_tag("member-#{@member.id}-membership[repository_ids][]",

@@ -1,5 +1,18 @@
 $( document ).ready( function() {
   $( "#member-<%= @member.id %>-selectAllMembershipRepositoryIds" ).selectAllCheckbox( {
-       checkboxesName   : "member-<%= @member.id %>-membership[repository_ids][]"
+       checkboxesName   : "member-<%= @member.id %>-membership[repository_ids][]",
+       onChangeCallback : function( changedBoxes, status ) {
+         checkbox_label = $('div#member-<%= @member.id %>-accessible-repositories-form > form > p:eq(0) > label[for="checkbox"]');
+         var GROUP_STATE_NONE = "none",
+             GROUP_STATE_SOME = "some",
+             GROUP_STATE_ALL  = "all";
+         if( status === GROUP_STATE_SOME ) {
+           checkbox_label.text("<%= l(:label_select_all) %>");
+         } else if( status === GROUP_STATE_ALL ) {
+           checkbox_label.text("<%= l(:label_unselect_all) %>");
+         } else if( status === GROUP_STATE_NONE ) {
+           checkbox_label.text("<%= l(:label_select_all) %>");
+         }
+       }
     } );
  } );

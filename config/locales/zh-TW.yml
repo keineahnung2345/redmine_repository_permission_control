@@ -5,4 +5,6 @@
 "zh-TW":
   label_accessible_repositories: "可存取的儲存機制"
   label_accessible_members: "可存取的成員"
+  label_select_all: "全選"
+  label_unselect_all: "取消全選"
   button_edit_permission: "編輯權限"
