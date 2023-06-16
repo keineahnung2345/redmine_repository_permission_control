@@ -1,0 +1,9 @@
+<h2><%=l(:label_settings)%></h2>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'jquery_selectallcheckbox.js', plugin: 'redmine_repository_permission_control' %>
+<% end %>
+
+<%= render_tabs project_settings_tabs %>
+
+<% html_title(l(:label_settings)) -%>
