@@ -1,18 +1,24 @@
+<script>
+  <%= render partial: 'set_selectallcheckbox' %>
+</script>
 <%= form_for(@repository, :url => update_repository_accessible_members_path(@repository),
                       :as => :membership,
                       :remote => request.xhr?,
                       :method => :put) do |f| %>
   <p>
+    <%= check_box_tag(nil, nil, false,
+                      :id => "repository-#{@repository.id}-selectAllMembershipRepositoryIds",
+                      :disabled => false) %> Select all
     <% @project.members.sort.each do |member| %>
     <label class="block">
-      <%= check_box_tag('membership[member_ids][]',
+      <%= check_box_tag("repository-#{@repository.id}-membership[member_ids][]",
                         member.id, (MemberAccessibleRepository.where(:repository_id => @repository.id).pluck(:member_id).include? member.id),
                         :id => nil,
                         :disabled => false) %> <%= member.user.firstname %>
     </label>
     <% end %>
   </p>
-  <%= hidden_field_tag 'membership[member_ids][]', '', :id => nil %>
+  <%= hidden_field_tag "repository-#{@repository.id}-membership[member_ids][]", '', :id => nil %>
 
   <p>
     <%= submit_tag l(:button_save) %>

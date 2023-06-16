@@ -1,0 +1,5 @@
+$( document ).ready( function() {
+  $( "#repository-<%= @repository.id %>-selectAllMembershipRepositoryIds" ).selectAllCheckbox( {
+       checkboxesName   : "repository-<%= @repository.id %>-membership[member_ids][]"
+    } );
+ } );

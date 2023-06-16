@@ -70,8 +70,8 @@ module RedmineRepositoryPermissionControl
         end
 
         def update_accessible_members
-          if params[:membership]
-            accessible_member_ids = (params[:membership][:member_ids] || []).collect(&:to_i)
+          if params["repository-#{@repository.id}-membership".to_sym]
+            accessible_member_ids = (params["repository-#{@repository.id}-membership".to_sym][:member_ids] || []).collect(&:to_i)
             @repository.accessible_member_ids = accessible_member_ids
           end
 
