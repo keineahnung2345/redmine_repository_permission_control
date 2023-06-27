@@ -16,6 +16,7 @@ module RedmineRepositoryPermissionControl
       module InstanceMethods
         def check_is_accessible(repo)
           return false if repo.nil?
+          return true if User.current.admin?
           member = Member.find_by(:user_id => User.current.id, :project_id => @project.id)
           MemberAccessibleRepository.where(:member_id => member.id).pluck(:repository_id).include? repo.id
         end
