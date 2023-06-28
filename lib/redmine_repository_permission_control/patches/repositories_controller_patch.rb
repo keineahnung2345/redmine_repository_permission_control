@@ -3,8 +3,12 @@ module RedmineRepositoryPermissionControl
     module RepositoriesControllerPatch
       def self.included(base)
         base.class_eval do
+          before_action :find_project_by_project_id, :only => [:new, :create]
+          before_action :build_new_repository_from_params, :only => [:new, :create]
           before_action :find_repository, :only => [:edit, :update, :destroy, :committers, :edit_accessible_members, :update_accessible_members]
           before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers, :edit_accessible_members, :update_accessible_members]
+          before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
+
           # :authorize should be after :find_repository and :find_project_repository
           before_action :authorize
           before_action :authorize_repository
