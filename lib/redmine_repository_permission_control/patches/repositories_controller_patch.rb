@@ -97,6 +97,8 @@ module RedmineRepositoryPermissionControl
         end
 
         def grant_creator_access
+          # return if current user is admin and not a member
+          return if @project.members.where(:user_id => User.current.id).empty?
           mar = MemberAccessibleRepository.new(:member_id => @project.members.where(:user_id => User.current.id)[0].id, :repository => @repository)
           mar.save!
         end
