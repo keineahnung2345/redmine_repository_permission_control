@@ -11,7 +11,7 @@ module RedmineRepositoryPermissionControl
 
           # :authorize should be after :find_repository and :find_project_repository
           before_action :authorize
-          before_action :authorize_repository
+          before_action :authorize_repository, :except => [:new, :create]
 
           prepend InstanceMethods
         end #base
