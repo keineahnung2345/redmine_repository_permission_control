@@ -13,6 +13,8 @@ module RedmineRepositoryPermissionControl
           before_action :authorize
           before_action :authorize_repository, :except => [:new, :create]
 
+          after_action :grant_creator_access, :only => [:create]
+
           prepend InstanceMethods
         end #base
       end #self
@@ -92,6 +94,11 @@ module RedmineRepositoryPermissionControl
               end
             end
           end
+        end
+
+        def grant_creator_access
+          mar = MemberAccessibleRepository.new(:member_id => @project.members.where(:user_id => User.current.id)[0].id, :repository => @repository)
+          mar.save!
         end
       end
     end #module
