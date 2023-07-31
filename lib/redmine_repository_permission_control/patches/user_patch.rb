@@ -16,9 +16,22 @@ module RedmineRepositoryPermissionControl
         # * an array of repositories: returns true if user is allowed on every repository
         def allowed_to_access_repository?(action, context, options={}, &block)
           if context && context.is_a?(Repository)
+            context_project = context.project
+            return false unless context_project.allows_to?(action)
             # Admin users are authorized for anything else
             return true if admin?
       
+            roles = roles_for_project(context_project)
+            return false unless roles
+
+            role_result = roles.any? do |role|
+              (context_project.is_public? || role.member?) &&
+              role.allowed_to?(action) &&
+              (block_given? ? yield(role, self) : true)
+            end
+
+            return true if role_result
+
             member = Member.find_by(:user_id => id, :project_id => context.project_id)
             member_accessible_repositories = MemberAccessibleRepository.where(:member_id => member.id)
             accessible_repositories = Repository.where(:id => member_accessible_repositories.map(&:repository_id))
