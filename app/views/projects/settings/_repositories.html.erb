@@ -37,7 +37,7 @@
         </td>
         <% if User.current.allowed_to?(:manage_repository, @project) %>
           <td class="accessible-members">
-            <span id="repository-<%=repository.id %>-accessible-members"><%= Member.find(repository.accessible_member_ids).map(&:user).pluck(:firstname).sort.collect(&:to_s).join(', ') %></span>
+            <span id="repository-<%=repository.id %>-accessible-members"><%= Member.find(repository.accessible_member_ids).map(&:user).compact.pluck(:firstname).sort.collect(&:to_s).join(', ') %></span>
             <div id="repository-<%=repository.id %>-accessible-members-form"></div>
           </td>
           <td class="buttons">
